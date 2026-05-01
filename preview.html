@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIRA — AI Growth Agency by Armein Arshad</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c:#00e5cc;--c2:#00ffee;
+  --cg:rgba(0,229,204,.12);--cd:rgba(0,229,204,.06);
+  --cm:rgba(0,229,204,.35);--cl:rgba(0,229,204,.18);
+  --bg:#060a0a;--bg2:#091010;--bg3:#0c1414;
+  --amber:#f0a500;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--c);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,204,.01) 2px,rgba(0,229,204,.01) 4px);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(0,229,204,.055) 0%,transparent 60%);pointer-events:none;z-index:0}
+.grid{position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,204,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,204,.022) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+.cx{position:fixed;width:20px;height:20px;border-color:var(--c);border-style:solid;opacity:.3;z-index:20}
+.cx.tl{top:10px;left:10px;border-width:2px 0 0 2px}
+.cx.tr{top:10px;right:10px;border-width:2px 2px 0 0}
+.cx.bl{bottom:10px;left:10px;border-width:0 0 2px 2px}
+.cx.br{bottom:10px;right:10px;border-width:0 2px 2px 0}
+.page{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:20px 16px 60px}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid var(--cl);margin-bottom:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.orb{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--c);display:flex;align-items:center;justify-content:center;position:relative;animation:orbpulse 3s ease-in-out infinite;flex-shrink:0}
+.orb-c{width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 14px var(--c)}
+.orb::before{content:'';position:absolute;width:52px;height:52px;border-radius:50%;border:1px solid rgba(0,229,204,.15);animation:spin 9s linear infinite}
+.brand-name{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--c);letter-spacing:5px;text-shadow:0 0 20px var(--c),0 0 40px rgba(0,229,204,.25)}
+.brand-sub{font-family:'Rajdhani',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(0,229,204,.42);margin-top:2px;font-weight:300}
+.sys-tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.stag{font-size:8px;padding:2px 7px;border:1px solid rgba(0,229,204,.28);color:var(--c);border-radius:2px;display:flex;align-items:center;gap:3px}
+.stag::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--c);box-shadow:0 0 5px var(--c);animation:dp 2s ease-in-out infinite}
+
+/* QUICK AGENT BUTTONS */
+.aq-section{margin-bottom:20px}
+.aq-label{font-size:8px;letter-spacing:3px;color:rgba(0,229,204,.38);margin-bottom:10px;display:block;text-align:center}
+.aq-grid{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.aq-btn{flex:1;min-width:108px;max-width:145px;font-family:'Orbitron',monospace;font-size:7px;font-weight:700;letter-spacing:.3px;padding:10px 7px;cursor:pointer;border:1px solid rgba(0,229,204,.25);background:transparent;color:rgba(0,229,204,.5);border-radius:3px;transition:all .2s;text-align:center;line-height:1.5;position:relative;overflow:hidden}
+.aq-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,229,204,.05),transparent);transition:left .3s}
+.aq-btn:hover::before{left:100%}
+.aq-btn:hover{border-color:var(--c);color:var(--c);background:var(--cg)}
+.aq-btn.sel{border-color:var(--c);color:var(--c);background:var(--cg);box-shadow:0 0 14px rgba(0,229,204,.18),inset 0 0 10px var(--cd)}
+.aq-num{display:block;font-size:11px;font-weight:900;color:var(--c);margin-bottom:3px}
+.aq-action{display:block;font-size:8px;margin-top:5px;padding:3px 5px;border:1px solid rgba(0,229,204,.32);border-radius:2px;color:var(--c);background:rgba(0,229,204,.05);transition:all .2s}
+.aq-btn:hover .aq-action,.aq-btn.sel .aq-action{background:var(--c);color:#020a09}
+
+/* FACE */
+.face-sec{position:relative;width:270px;height:270px;margin:0 auto 12px}
+.face-sec::before{content:'';position:absolute;width:290px;height:290px;top:-10px;left:-10px;border-radius:50%;border:1px dashed rgba(0,229,204,.09);animation:spin 55s linear infinite}
+.ring{position:absolute;border-radius:50%;animation:spin linear infinite}
+.r1{inset:0;border:1px solid rgba(0,229,204,.15);animation-duration:25s}
+.r2{inset:19px;border:1px solid rgba(0,229,204,.11);animation-duration:17s;animation-direction:reverse}
+.r3{inset:37px;border:1px solid rgba(0,229,204,.09);animation-duration:11s}
+.r4{inset:55px;border:1px solid rgba(0,229,204,.15);animation-duration:7s;animation-direction:reverse}
+.rdot{position:absolute;border-radius:50%;background:var(--c);top:50%;left:50%;box-shadow:0 0 8px var(--c)}
+.rd1{width:8px;height:8px;margin:-4px;transform-origin:-127px 0;animation:spin 25s linear infinite}
+.rd2{width:5px;height:5px;margin:-2.5px;transform-origin:-108px 0;animation:spin 17s linear infinite reverse}
+.rd3{width:4px;height:4px;margin:-2px;transform-origin:-90px 0;animation:spin 11s linear infinite}
+.ticks-r{position:absolute;inset:0;animation:spin 90s linear infinite}
+.tick{position:absolute;width:1px;height:7px;background:var(--c);opacity:.2;top:0;left:50%;transform-origin:0 135px}
+.face-c{position:absolute;inset:55px;border-radius:50%;background:radial-gradient(ellipse at 38% 32%,#0a1a18 0%,#060a0a 70%);border:1.5px solid rgba(0,229,204,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;box-shadow:0 0 30px rgba(0,229,204,.12),inset 0 0 26px rgba(0,229,204,.04)}
+.eyes{display:flex;gap:22px}
+.eye{width:20px;height:20px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c),0 0 20px rgba(0,229,204,.38);animation:blink 5.5s ease-in-out infinite;position:relative}
+.eye::after{content:'';position:absolute;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.28);top:3px;left:3px}
+.eye:nth-child(2){animation-delay:.07s}
+.eye.tk{animation:eyetk .35s ease-in-out infinite alternate}
+.mouth{width:30px;height:2px;background:rgba(0,229,204,.35);border-radius:2px;transition:all .3s}
+.mouth.open{animation:mouthanim .18s ease-in-out infinite alternate}
+.face-lbl{position:absolute;bottom:43px;left:50%;transform:translateX(-50%);font-family:'Orbitron',monospace;font-size:7px;letter-spacing:3px;color:rgba(0,229,204,.62);white-space:nowrap;text-shadow:0 0 8px var(--c)}
+
+/* AGENT INFO */
+.ai{text-align:center;margin-bottom:10px;min-height:44px}
+.ai-name{font-family:'Orbitron',monospace;font-size:10px;font-weight:700;color:var(--c);letter-spacing:1.5px}
+.ai-desc{font-family:'Rajdhani',sans-serif;font-size:10px;color:rgba(0,229,204,.45);letter-spacing:.5px;margin-top:4px;font-weight:300;line-height:1.5}
+
+/* WAVE */
+.wave-s{display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:16px}
+.wave-l{font-size:8px;letter-spacing:2px;color:rgba(0,229,204,.36)}
+.wave{display:flex;gap:3px;align-items:center;justify-content:center;height:46px;width:100%;max-width:360px;padding:0 12px}
+.bar{flex:1;max-width:6px;min-height:3px;border-radius:3px;background:linear-gradient(to top,var(--c),var(--c2));transition:height .04s ease}
+.bar.flat{height:3px!important;opacity:.17;box-shadow:none}
+.bar.live{opacity:.86;box-shadow:0 0 4px rgba(0,229,204,.35)}
+
+/* VOICE BUTTON */
+.vbtn-w{display:flex;flex-direction:column;align-items:center;margin-bottom:8px}
+.vbtn{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;letter-spacing:3px;padding:16px 52px;cursor:pointer;background:transparent;border:2px solid var(--c);color:var(--c);border-radius:3px;width:100%;max-width:420px;transition:all .2s;position:relative;overflow:hidden;box-shadow:0 0 20px rgba(0,229,204,.12)}
+.vbtn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,229,204,.07),transparent);animation:btnshine 3.5s linear infinite}
+.vbtn:hover{background:var(--cg);box-shadow:0 0 30px rgba(0,229,204,.2)}
+.vbtn.active{background:var(--c);color:#020a09;box-shadow:0 0 40px var(--c)}
+.vbtn.conn{border-color:var(--amber);color:var(--amber)}
+.vhint{font-size:9px;letter-spacing:2px;color:rgba(0,229,204,.36);margin-top:6px}
+
+/* STATS */
+.stats{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.stat{flex:1;min-width:68px;border:1px solid var(--cl);border-radius:3px;padding:8px 10px;text-align:center;background:var(--bg2)}
+.stat-v{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--c);text-shadow:0 0 8px rgba(0,229,204,.45)}
+.stat-l{font-size:7px;letter-spacing:1px;color:rgba(0,229,204,.36);margin-top:3px}
+
+/* DIVIDER */
+.div{border:none;border-top:1px solid rgba(0,229,204,.09);margin:16px 0}
+.sec-l{font-size:8px;letter-spacing:3px;color:rgba(0,229,204,.36);margin-bottom:12px}
+
+/* ANALYSE */
+.abox{border:1px solid var(--cl);border-radius:3px;padding:14px;margin-bottom:16px;background:var(--bg2)}
+.asub{font-size:8px;letter-spacing:2px;color:rgba(0,229,204,.33);margin-bottom:10px;display:block}
+.irow{display:flex;gap:7px}
+#biz{flex:1;background:var(--bg3);border:1px solid rgba(0,229,204,.2);color:var(--c);font-family:'Share Tech Mono',monospace;font-size:11px;padding:9px 12px;border-radius:2px;outline:none;letter-spacing:.5px}
+#biz::placeholder{color:rgba(0,229,204,.18)}
+#biz:focus{border-color:rgba(0,229,204,.5)}
+.gbtn{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;letter-spacing:1px;padding:9px 15px;background:transparent;border:1px solid var(--c);color:var(--c);cursor:pointer;border-radius:2px;transition:all .2s;white-space:nowrap}
+.gbtn:hover{background:var(--cg)}
+.resp{margin-top:12px;background:var(--bg3);border:1px solid rgba(0,229,204,.09);border-radius:2px;padding:12px 14px;font-size:10px;color:var(--c);line-height:1.95;letter-spacing:.3px;min-height:50px;white-space:pre-wrap}
+.cur{display:inline-block;width:7px;height:12px;background:var(--c);animation:cblink .85s step-end infinite;vertical-align:text-bottom;margin-left:2px}
+
+/* DEMO CARDS */
+.dcards{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.dc{border:1px solid var(--cl);border-radius:3px;padding:13px 14px;background:var(--bg2);display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all .2s;cursor:pointer}
+.dc:hover{border-color:rgba(0,229,204,.42);background:var(--cg)}
+.dc-l{flex:1}
+.dc-num{font-family:'Orbitron',monospace;font-size:8px;color:var(--c);font-weight:700;margin-bottom:3px;letter-spacing:1px}
+.dc-t{font-size:11px;color:var(--c);margin-bottom:2px;font-weight:500}
+.dc-d{font-size:9px;color:rgba(0,229,204,.4);letter-spacing:.3px;line-height:1.5}
+.dc-btn{font-family:'Orbitron',monospace;font-size:8px;font-weight:700;padding:7px 12px;border:1px solid var(--c);color:var(--c);background:transparent;cursor:pointer;border-radius:2px;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.dc:hover .dc-btn{background:var(--c);color:#020a09}
+
+/* STATUS ROW */
+.srow{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.s-t{font-size:8px;padding:3px 7px;border:1px solid rgba(0,229,204,.18);color:rgba(0,229,204,.4);border-radius:2px;display:flex;align-items:center;gap:3px}
+.s-t.on{color:var(--c);border-color:rgba(0,229,204,.38)}
+.s-t.on::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--c);box-shadow:0 0 5px var(--c)}
+
+/* CTA */
+.cta{border-top:1px solid rgba(0,229,204,.09);padding-top:28px;text-align:center;margin-top:10px}
+.cta-t{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;color:rgba(0,229,204,.52);margin-bottom:14px}
+.cta-btn{display:inline-block;font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;padding:12px 28px;border:1px solid rgba(0,229,204,.42);color:var(--c);text-decoration:none;border-radius:3px;transition:all .2s}
+.cta-btn:hover{background:var(--cg);border-color:var(--c)}
+.cta-cr{font-size:8px;color:rgba(0,229,204,.2);margin-top:14px;letter-spacing:1px}
+
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.mbg.open{display:flex}
+.mbox{background:var(--bg2);border:1px solid rgba(0,229,204,.35);border-radius:4px;width:100%;max-width:460px;padding:24px;position:relative;box-shadow:0 0 50px rgba(0,229,204,.07)}
+.mclose{position:absolute;top:12px;right:14px;background:none;border:none;color:rgba(0,229,204,.42);font-size:18px;cursor:pointer;font-family:monospace}
+.mclose:hover{color:var(--c)}
+.mt{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--c);letter-spacing:2px;margin-bottom:4px}
+.ms{font-size:10px;color:rgba(0,229,204,.4);margin-bottom:18px;letter-spacing:.5px;line-height:1.5}
+.ff{margin-bottom:11px}
+.fl{font-size:9px;letter-spacing:1px;color:rgba(0,229,204,.46);margin-bottom:5px;display:block}
+.fi,.fsel{width:100%;background:var(--bg3);border:1px solid rgba(0,229,204,.2);color:var(--c);font-family:'Share Tech Mono',monospace;font-size:11px;padding:9px 12px;border-radius:2px;outline:none}
+.fi::placeholder{color:rgba(0,229,204,.16)}
+.fi:focus,.fsel:focus{border-color:rgba(0,229,204,.5)}
+.fsel option{background:var(--bg2)}
+.fsub{width:100%;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:2px;padding:13px;background:transparent;border:1.5px solid var(--c);color:var(--c);cursor:pointer;border-radius:2px;margin-top:6px;transition:all .2s}
+.fsub:hover{background:var(--c);color:#020a09}
+.fsub:disabled{opacity:.32;cursor:not-allowed}
+.sbox{text-align:center;padding:24px 0}
+.sicon{font-size:36px;margin-bottom:12px}
+.smsg{font-size:11px;color:var(--c);letter-spacing:1px;line-height:1.8}
+
+/* KEYFRAMES */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes orbpulse{0%,100%{box-shadow:0 0 0 0 rgba(0,229,204,.22)}50%{box-shadow:0 0 0 10px rgba(0,229,204,0)}}
+@keyframes blink{0%,88%,100%{transform:scaleY(1)}93%{transform:scaleY(.05)}}
+@keyframes eyetk{0%{box-shadow:0 0 10px var(--c)}100%{box-shadow:0 0 22px var(--c),0 0 44px rgba(0,229,204,.45)}}
+@keyframes mouthanim{0%{width:18px}100%{width:30px}}
+@keyframes dp{0%,100%{opacity:1}50%{opacity:.22}}
+@keyframes btnshine{0%{left:-100%}100%{left:200%}}
+@keyframes cblink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes wapulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.4)}50%{box-shadow:0 4px 30px rgba(37,211,102,.7)}}
+
+/* MOBILE RESPONSIVE UPDATE */
+.vbtn.pulse-focus {
+  animation: voiceFocusPulse 0.8s ease-in-out 2;
+}
+
+@keyframes voiceFocusPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.035); }
+}
+
+@media (max-width: 520px) {
+  .page {
+    padding: 14px 10px 80px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .brand {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .brand-name {
+    font-size: 17px;
+    letter-spacing: 4px;
+  }
+
+  .brand-sub {
+    font-size: 8px;
+  }
+
+  .sys-tags {
+    justify-content: center;
+  }
+
+  .aq-label {
+    font-size: 7px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .aq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .aq-btn {
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+    font-size: 6.5px;
+    line-height: 1.35;
+    padding: 7px 4px;
+    letter-spacing: 0.15px;
+  }
+
+  .aq-num {
+    font-size: 9px;
+    margin-bottom: 2px;
+  }
+
+  .aq-action {
+    font-size: 6.5px;
+    margin-top: 4px;
+    padding: 3px 4px;
+  }
+
+  .face-sec {
+    width: 230px;
+    height: 230px;
+    margin-top: 10px;
+  }
+
+  .face-sec::before {
+    width: 250px;
+    height: 250px;
+  }
+
+  .face-c {
+    inset: 46px;
+  }
+
+  .vbtn {
+    font-size: 11px;
+    padding: 13px 16px;
+    letter-spacing: 2px;
+    max-width: 330px;
+  }
+
+  .irow {
+    flex-direction: column;
+  }
+
+  .gbtn {
+    width: 100%;
+  }
+
+  .dc {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .dc-btn {
+    width: 100%;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  a[href^="https://wa.me"] {
+    width: 50px !important;
+    height: 50px !important;
+    bottom: 18px !important;
+    right: 18px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .aq-btn {
+    font-size: 6px;
+    padding: 6px 3px;
+  }
+
+  .aq-action {
+    font-size: 6px;
+  }
+
+  .face-sec {
+    width: 215px;
+    height: 215px;
+  }
+
+  .face-sec::before {
+    width: 235px;
+    height: 235px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="cx tl"></div><div class="cx tr"></div>
+<div class="cx bl"></div><div class="cx br"></div>
+
+<div class="page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="orb"><div class="orb-c"></div></div>
+      <div>
+        <div class="brand-name">A.I.R.A.</div>
+        <div class="brand-sub">AI Receptionist &amp; Automation · Armein Arshad</div>
+      </div>
+    </div>
+    <div class="sys-tags">
+      <div class="stag">All 5 agents online</div>
+      <div class="stag">v3.1</div>
+    </div>
+  </div>
+
+  <!-- QUICK AGENT BUTTONS -->
+  <div class="aq-section">
+    <span class="aq-label">// EXPERIENCE EACH AGENT LIVE — CLICK ANY BUTTON BELOW</span>
+    <div class="aq-grid">
+      <div class="aq-btn sel" onclick="pick(0,this)">
+        <span class="aq-num">01</span>
+        Talk to<br>AIRA
+        <span class="aq-action">Start Voice →</span>
+      </div>
+      <div class="aq-btn" onclick="pick(1,this)">
+        <span class="aq-num">02</span>
+        Get WhatsApp<br>Demo
+        <span class="aq-action">Open Chat →</span>
+      </div>
+      <div class="aq-btn" onclick="pick(2,this)">
+        <span class="aq-num">03</span>
+        Score My<br>Business
+        <span class="aq-action">Score Now →</span>
+      </div>
+      <div class="aq-btn" onclick="pick(3,this)">
+        <span class="aq-num">04</span>
+        Book Free<br>Strategy Call
+        <span class="aq-action">Book Now →</span>
+      </div>
+      <div class="aq-btn" onclick="pick(4,this)">
+        <span class="aq-num">05</span>
+        Analyse My<br>Store
+        <span class="aq-action">Analyse Store →</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FACE -->
+  <div class="face-sec">
+    <div class="ring r1"><div class="rdot rd1"></div></div>
+    <div class="ring r2"><div class="rdot rd2"></div></div>
+    <div class="ring r3"><div class="rdot rd3"></div></div>
+    <div class="ring r4"></div>
+    <div class="ticks-r" id="ticks"></div>
+    <div class="face-c">
+      <div class="eyes">
+        <div class="eye" id="e1"></div>
+        <div class="eye" id="e2"></div>
+      </div>
+      <div class="mouth" id="mouth"></div>
+    </div>
+    <div class="face-lbl" id="flbl">STANDBY</div>
+  </div>
+
+  <!-- AGENT INFO -->
+  <div class="ai">
+    <div class="ai-name" id="aname">Agent 01 — Voice AI Receptionist</div>
+    <div class="ai-desc" id="adesc">Answers every call 24/7 · qualifies leads · books appointments · powered by AIRA voice intelligence</div>
+  </div>
+
+  <!-- WAVE -->
+  <div class="wave-s">
+    <div class="wave-l" id="wlbl">VOICE SIGNAL — IDLE</div>
+    <div class="wave" id="wave"></div>
+  </div>
+
+  <!-- VOICE BUTTON -->
+  <div class="vbtn-w" id="vwrap">
+    <button class="vbtn" id="vbtn" onclick="toggleCall()">▶ &nbsp;Talk to AIRA</button>
+    <div class="vhint" id="vhint">Click to start a live AI voice conversation</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="stat-v" id="sc">0</div><div class="stat-l">Calls handled</div></div>
+    <div class="stat"><div class="stat-v">&lt;3s</div><div class="stat-l">Response time</div></div>
+    <div class="stat"><div class="stat-v">24/7</div><div class="stat-l">Available</div></div>
+    <div class="stat"><div class="stat-v">5</div><div class="stat-l">AI agents</div></div>
+  </div>
+
+  <!-- ANALYSE -->
+  <hr class="div">
+  <div class="sec-l">// LIVE BUSINESS ANALYSIS — TYPE ANY BUSINESS NAME</div>
+  <div class="abox">
+    <span class="asub">AIRA analyses any business in real time — try it now with any business</span>
+    <div class="irow">
+      <input id="biz" type="text" placeholder="e.g. Glow Day Spa Toronto..." onkeydown="if(event.key==='Enter')scan()"/>
+      <button class="gbtn" onclick="scan()">Scan →</button>
+    </div>
+    <div class="resp" id="resp">Awaiting business scan input...<span class="cur"></span></div>
+  </div>
+
+  <!-- DEMO CARDS -->
+  <hr class="div">
+  <div class="sec-l" id="dlbl">// TRY AGENT 01 — VOICE AI RECEPTIONIST</div>
+  <div class="dcards" id="dcards"></div>
+
+  <!-- STATUS -->
+  <div class="srow">
+     <div class="s-t on">Voice AI active</div>
+     <div class="s-t on">WhatsApp ready</div>
+     <div class="s-t on">Automation online</div>
+     <div class="s-t on">AI brain online</div>
+     <div class="s-t on">Booking ready</div>
+     <div class="s-t on">Lead tracking</div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-t">Ready for AIRA to run your business 24/7?</div>
+    <a class="cta-btn" href="https://cal.com/armein/free-15-min-strategy-call-with-armein" target="_blank">Book your free strategy call →</a>
+    <div class="cta-cr">Armein Arshad · AI Growth Strategist · Toronto, Canada · Built by Armein Arshad AI Growth Agency</div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="mbg" id="mbg" onclick="closeOut(event)">
+  <div class="mbox">
+    <button class="mclose" onclick="closeM()">✕</button>
+    <div id="mbody"></div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════
+// YOUR REAL CREDENTIALS — ALL SET
+// ════════════════════════════════════
+const C = {
+  VAPI_KEY:  '9d0db692-0d2e-435f-96a5-5f3e2be65ea5',
+  VAPI_ID:   'dae40fc1-2854-4e70-8e21-b158fcf89dcd',
+  CALENDLY:  'https://cal.com/armein/free-15-min-strategy-call-with-armein',
+  N8N_VOICE: 'https://n8n-production-6be9.up.railway.app/webhook/aira-voice-call',
+  N8N_WA:    'https://n8n-production-6be9.up.railway.app/webhook/aira-whatsapp',
+  N8N_QUAL:  'https://n8n-production-6be9.up.railway.app/webhook/aira-qualify',
+  N8N_BOOK:  'https://n8n-production-f094.up.railway.app/webhook/aira-booking',
+  N8N_ECOM:  'https://n8n-production-f094.up.railway.app/webhook/aira-ecom',
+  N8N_SCAN:  'https://n8n-production-6be9.up.railway.app/webhook/aira-analyse',
+  TALLY_WA:  'https://tally.so/r/EkBYB4',
+  TALLY_Q:   'https://tally.so/r/zx0Vr1',
+  TALLY_EC:  'https://tally.so/r/vG0aM8'
+};
+
+// ════════════════════════════════════
+// AGENTS CONFIG
+// ════════════════════════════════════
+const AG = [
+  {
+    label:'VOICE RECEPTIONIST',
+    name:'Agent 01 — Voice AI Receptionist',
+    desc:'Answers every call 24/7 · qualifies leads · books appointments · powered by AIRA voice intelligence',
+    ph:'Type a business name to demo a voice call simulation...',
+    sys:'You are AIRA Voice Receptionist by Armein Arshad. When given a business name simulate an incoming call:\n\nCALL SIMULATION: [Business]\nCALLER: Hi, I\'d like to book an appointment\nAIRA: [Warm greeting, qualify with 2 questions, offer time slots — 3-4 natural lines]\nOUTCOME: Lead qualified · Appointment booked · Added to CRM\n\nUnder 90 words. Be warm and specific to the business type.',
+    dlbl:'// TRY AGENT 01 — VOICE AI RECEPTIONIST',
+    cards:[{
+      num:'01',title:'Live voice call demo',
+      desc:'Click Talk to AIRA above — have a real conversation with our AI voice receptionist. This is exactly what we build for your business.',
+      btn:'Start voice call ↑',act:'voice'
+    }]
+  },
+  {
+    label:'WHATSAPP SUPPORT',
+    name:'Agent 02 — WhatsApp AI Support',
+    desc:'Replies to every WhatsApp message in under 3 seconds · 24/7 automatic customer support · AIRA automation system',
+    ph:'Type a business name to demo WhatsApp AI support...',
+    sys:'You are AIRA WhatsApp Support by Armein Arshad. When given a business name simulate a WhatsApp interaction:\n\nWHATSAPP SIMULATION: [Business]\nCUSTOMER: [Realistic question for that business]\nAIRA: [Instant helpful reply, friendly, offers to book or escalate — 3-4 lines]\nRESPONSE TIME: Under 3 seconds · 24/7 automatic\n\nUnder 90 words. Be specific.',
+    dlbl:'// TRY AGENT 02 — WHATSAPP AI SUPPORT',
+    cards:[{
+      num:'02',title:'Get a live WhatsApp AI demo',
+      desc:'Message AIRA directly on WhatsApp and see how instant AI support can help convert more leads for your business.',
+      btn:'Open WhatsApp →',act:'wa',url:'https://wa.me/923169089201?text=Hi%20AIRA%2C%20I%20want%20to%20see%20how%20AI%20automation%20and%20marketing%20can%20help%20my%20business'
+    }]
+  },
+  {
+    label:'LEAD QUALIFIER',
+    name:'Agent 03 — Lead Qualification AI',
+    desc:'Scores every lead Hot / Warm / Cold automatically · saves 10+ hours/week · powered by AIRA intelligence',
+    ph:'Type a business name to demo lead scoring...',
+    sys:'You are AIRA Lead Qualification AI by Armein Arshad. When given a business name show a lead qualification:\n\nLEAD SCAN: [Business]\nLEAD SOURCE: [Where they came from]\nQUALIFYING QUESTIONS ASKED: [2-3 smart questions]\nLEAD SCORE: [X]/10\nSTATUS: Hot / Warm / Cold\nESTIMATED VALUE: $[X]/month\nACTION: [What happens next automatically]\n\nUnder 80 words.',
+    dlbl:'// TRY AGENT 03 — LEAD QUALIFICATION AI',
+    cards:[{
+      num:'03',title:'Get your free business lead score',
+      desc:'Submit your business details — AIRA scores your growth opportunity and sends a full qualification report to your WhatsApp within 60 seconds.',
+      btn:'Score my business →',act:'tally',url:'https://tally.so/r/zx0Vr1'
+    }]
+  },
+  {
+    label:'BOOKING AGENT',
+    name:'Agent 04 — Appointment Booking Agent',
+    desc:'Fills your calendar automatically · sends reminders · reduces no-shows by 60% · AIRA booking system',
+    ph:'Type a business name to demo automated booking...',
+    sys:'You are AIRA Booking Agent by Armein Arshad. When given a business name simulate automated booking:\n\nBOOKING SIMULATION: [Business]\nCLIENT REQUEST: [Typical booking request]\nAIRA: [Checks availability, confirms slot — 3 natural lines]\nCONFIRMATION SENT: WhatsApp + email automatically\nREMINDER SET: 24hrs + 1hr before appointment\n\nUnder 80 words. Be specific.',
+    dlbl:'// TRY AGENT 04 — APPOINTMENT BOOKING',
+    cards:[{
+      num:'04',title:'Book a real strategy call — experience Agent 04 live',
+      desc:'This IS Agent 04 in action. Book your free 15-min call with Armein and receive an automated WhatsApp confirmation — exactly what your clients will experience.',
+      btn:'Book your call →',act:'cal'
+    }]
+  },
+  {
+    label:'SALES ASSISTANT',
+    name:'Agent 05 — E-commerce Sales AI',
+    desc:'Recommends products · handles objections · recovers abandoned carts · closes sales · Claude AI',
+    ph:'Type a store or product name to demo the sales AI...',
+    sys:'You are AIRA E-commerce Sales AI by Armein Arshad. When given a business simulate an AI sales interaction:\n\nSALES SIMULATION: [Business]\nVISITOR: [Common browsing question for that store]\nAIRA: [Recommends product, handles objection, urgency trigger, guides to checkout — 3-4 lines]\nCONVERSION BOOST: +[X]%\nCART RECOVERY: Automated follow-up triggered\n\nUnder 90 words. Be persuasive.',
+    dlbl:'// TRY AGENT 05 — E-COMMERCE SALES AI',
+    cards:[{
+      num:'05',title:'Get your free e-commerce sales analysis',
+      desc:'Submit your store — AIRA analyses your conversion gaps and delivers a full sales growth strategy to your WhatsApp within 60 seconds.',
+      btn:'Analyse my store →',act:'tally',url:'https://tally.so/r/vG0aM8'
+    }]
+  }
+];
+
+// DEMO FALLBACKS
+const DF=[
+  b=>`CALL SIMULATION: ${b}\nCALLER: Hi, I'd like to book an appointment\nAIRA: Welcome to ${b}! I'm AIRA, your AI receptionist. Happy to get you booked in — what service are you looking for, and would mornings or afternoons work best for you this week?\nOUTCOME: Lead qualified · Appointment booked · Added to CRM automatically`,
+  b=>`WHATSAPP SIMULATION: ${b}\nCUSTOMER: Do you have any availability this weekend?\nAIRA: Hi! Yes, ${b} has Saturday and Sunday slots open. We have 10am, 1pm and 3pm available on Saturday. Which time works best, and what service are you interested in?\nRESPONSE TIME: Under 3 seconds · Available 24/7`,
+  b=>`LEAD SCAN: ${b}\nLEAD SOURCE: Google Ads click\nQUALIFYING QUESTIONS ASKED: What service interests you most? · What is your timeline? · What is your monthly budget?\nLEAD SCORE: 8/10\nSTATUS: Hot\nESTIMATED VALUE: $1,400/month\nACTION: Priority outreach within 15 mins · Proposal sent automatically`,
+  b=>`BOOKING SIMULATION: ${b}\nCLIENT REQUEST: I need a consultation this week\nAIRA: I've checked the calendar — Thursday at 2pm and Friday at 10am are available. Which works best? I'll send a confirmation to your email and a WhatsApp reminder 1 hour before your appointment.\nCONFIRMATION SENT: WhatsApp + email automatically\nREMINDER SET: 24hrs + 1hr before`,
+  b=>`SALES SIMULATION: ${b}\nVISITOR: Is this worth the price compared to others?\nAIRA: Absolutely — our customers average 3x ROI within 60 days. We also have a 20% first-order discount expiring tonight. I can apply it to your order right now before it goes. Want me to lock that in for you?\nCONVERSION BOOST: +38% estimated\nCART RECOVERY: 3-step follow-up sequence triggered`
+];
+
+// STATE
+let cur=0,busy=false,live=false,vapi=null,waf=null,cc=0;
+let vapiLoadPromise = null;
+
+async function loadVapiSDK() {
+  if (window.Vapi) return window.Vapi;
+
+  if (!vapiLoadPromise) {
+    vapiLoadPromise = import("https://esm.sh/@vapi-ai/web")
+      .then((mod) => {
+        window.Vapi = mod.default || mod.Vapi || mod;
+        return window.Vapi;
+      })
+      .catch((err) => {
+        vapiLoadPromise = null;
+        throw err;
+      });
+  }
+
+  return vapiLoadPromise;
+}
+
+// BUILD TICKS + WAVE
+const tk=document.getElementById('ticks');
+for(let i=0;i<24;i++){const t=document.createElement('div');t.className='tick';t.style.transform=`rotate(${i*15}deg)`;tk.appendChild(t);}
+const wv=document.getElementById('wave');
+for(let i=0;i<20;i++){const b=document.createElement('div');b.className='bar flat';wv.appendChild(b);}
+
+
+function scrollToVoiceButton(){
+  const vwrap = document.getElementById('vwrap');
+  const vbtn = document.getElementById('vbtn');
+  if (!vwrap || !vbtn) return;
+
+  vwrap.style.display = 'flex';
+  vwrap.style.flexDirection = 'column';
+  vwrap.style.alignItems = 'center';
+
+  setTimeout(() => {
+    vbtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    vbtn.classList.add('pulse-focus');
+    setTimeout(() => vbtn.classList.remove('pulse-focus'), 1600);
+  }, 120);
+}
+
+// PICK AGENT
+function pick(i,el){
+  cur=i;
+  document.querySelectorAll('.aq-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  const a=AG[i];
+  document.getElementById('aname').textContent=a.name;
+  document.getElementById('adesc').textContent=a.desc;
+  document.getElementById('flbl').textContent=a.label;
+  document.getElementById('biz').placeholder=a.ph;
+  document.getElementById('dlbl').textContent=a.dlbl;
+  document.getElementById('resp').innerHTML='Agent '+String(i+1).padStart(2,'0')+' selected — '+a.label+' ready...<span class="cur"></span>';
+  document.getElementById('vwrap').style.display=i===0?'flex':'none';
+  renderCards(a);
+  setWave(false);
+  if(live&&vapi){vapi.stop();endCall();}
+  if(i===0) scrollToVoiceButton();
+}
+
+// RENDER CARDS
+function renderCards(a){
+  document.getElementById('dcards').innerHTML=a.cards.map(c=>`
+    <div class="dc" onclick="doCard('${c.act}','${c.url||''}')">
+      <div class="dc-l">
+        <div class="dc-num">AGENT ${c.num} — ${a.label}</div>
+        <div class="dc-t">${c.title}</div>
+        <div class="dc-d">${c.desc}</div>
+      </div>
+      <button class="dc-btn">${c.btn}</button>
+    </div>`).join('');
+}
+
+function doCard(act,url){
+  if(act==='voice') scrollToVoiceButton();
+  else if(act==='wa') window.open(url,'_blank');
+  else if(act==='tally') window.open(url,'_blank');
+  else if(act==='cal') window.open(C.CALENDLY,'_blank');
+}
+
+// WAVE
+function setWave(on,int=1){
+  const bars=document.querySelectorAll('.bar');
+  document.getElementById('wlbl').textContent=on?'VOICE SIGNAL — ACTIVE':'VOICE SIGNAL — IDLE';
+  if(!on){bars.forEach(b=>{b.classList.add('flat');b.classList.remove('live');b.style.height='3px';});if(waf){cancelAnimationFrame(waf);waf=null;}return;}
+  bars.forEach(b=>{b.classList.remove('flat');b.classList.add('live');});
+  function go(){bars.forEach((b,i)=>{const t=Date.now()/1000;const h=Math.abs(Math.sin(t*(1.9+i*.28)+i*.42)*20*int+Math.sin(t*(2.5+i*.18)+i*.58)*16*int)+4;b.style.height=Math.min(42,Math.max(3,h))+'px';});waf=requestAnimationFrame(go);}
+  go();
+}
+
+function setFace(on){
+  document.getElementById('e1').classList.toggle('tk',on);
+  document.getElementById('e2').classList.toggle('tk',on);
+  document.getElementById('mouth').classList.toggle('open',on);
+}
+
+// VOICE CALL
+function toggleCall(){live?stopCall():startCall();}
+
+  async function startCall(){
+  const btn = document.getElementById('vbtn');
+  const hint = document.getElementById('vhint');
+
+  btn.textContent = '◌  Connecting...';
+  btn.className = 'vbtn conn';
+  hint.textContent = 'Loading AIRA voice...';
+  document.getElementById('flbl').textContent = 'CONNECTING';
+
+  try {
+    const VapiClass = await loadVapiSDK();
+
+    if (!VapiClass || !C.VAPI_KEY || !C.VAPI_ID) {
+      throw new Error("Vapi SDK, public key, or assistant ID missing");
+    }
+
+    vapi = new VapiClass(C.VAPI_KEY);
+
+    vapi.on('call-start', () => {
+      live = true;
+      cc++;
+      document.getElementById('sc').textContent = cc;
+      btn.textContent = '◼  End Call';
+      btn.className = 'vbtn active';
+      hint.textContent = 'AIRA is listening — speak now';
+      document.getElementById('flbl').textContent = 'LISTENING';
+      setWave(true, 1.2);
+      setFace(false);
+    });
+
+    vapi.on('speech-start', () => {
+      document.getElementById('flbl').textContent = 'AIRA SPEAKING';
+      setWave(true, 2);
+      setFace(true);
+    });
+
+    vapi.on('speech-end', () => {
+      document.getElementById('flbl').textContent = 'LISTENING';
+      setWave(true, 1);
+      setFace(false);
+    });
+
+    vapi.on('call-end', () => endCall());
+
+    vapi.on('error', (err) => {
+      console.error('Vapi error:', err);
+      hint.textContent = 'Vapi connection error — check Console';
+      endCall();
+    });
+
+    await vapi.start(C.VAPI_ID);
+
+  } catch (err) {
+    console.error('AIRA voice start failed:', err);
+    hint.textContent = 'AIRA voice failed — check Console';
+    endCall();
+  }
+}
+
+
+function demoMode(){
+  const btn=document.getElementById('vbtn'),hint=document.getElementById('vhint');
+  setTimeout(()=>{
+    live=true;cc++;document.getElementById('sc').textContent=cc;
+    btn.textContent='◼  End Call';btn.className='vbtn active';
+    hint.textContent='AIRA is listening (demo mode — add Vapi key for live voice)';
+    document.getElementById('flbl').textContent='LISTENING';
+    setWave(true,1.2);
+    setTimeout(()=>{document.getElementById('flbl').textContent='AIRA SPEAKING';setWave(true,2.2);setFace(true);setTimeout(()=>{setFace(false);setWave(true,1);document.getElementById('flbl').textContent='LISTENING';},3200);},2000);
+  },1400);
+}
+
+function stopCall(){
+  if(vapi){
+    try { vapi.stop(); } catch(e) { console.error('Vapi stop error:', e); }
+  }
+  endCall();
+}
+function endCall(){
+  live=false;
+  const btn=document.getElementById('vbtn');
+  btn.textContent='▶ \u00a0Talk to AIRA';btn.className='vbtn';
+  document.getElementById('vhint').textContent='Call ended · Click to talk again';
+  document.getElementById('flbl').textContent='STANDBY';
+  setWave(false);setFace(false);
+  vapi = null;
+}
+
+
+// AGENT-SPECIFIC N8N ROUTING
+// Each selected agent now sends the scan/demo request to its own n8n workflow.
+function getAgentWebhook(i){
+  return [C.N8N_VOICE, C.N8N_WA, C.N8N_QUAL, C.N8N_BOOK, C.N8N_ECOM][i] || C.N8N_SCAN;
+}
+
+function buildAgentPayload(biz,a,i){
+  const base = {
+    source: 'AIRA website',
+    business: biz,
+    agentNumber: i + 1,
+    agent: a.label,
+    agentName: a.name,
+    system: a.sys,
+    timestamp: new Date().toISOString()
+  };
+
+  if(i === 0){
+    return {
+      ...base,
+      workflowType: 'voice_receptionist',
+      eventType: 'website_voice_demo',
+      call: {
+        status: 'website_demo_requested',
+        summary: `Website visitor requested a Voice AI Receptionist demo for ${biz}`,
+        transcript: `Visitor wants to see how AIRA can answer calls, qualify leads, and book appointments for ${biz}.`
+      },
+      customer: { name: 'Website Visitor', phone: 'Not provided' }
+    };
+  }
+
+  if(i === 1){
+    return {
+      ...base,
+      workflowType: 'whatsapp_support',
+      eventType: 'website_whatsapp_demo',
+      customerMessage: `I want to see a WhatsApp AI support demo for ${biz}`,
+      channel: 'whatsapp'
+    };
+  }
+
+  if(i === 2){
+    return {
+      ...base,
+      workflowType: 'lead_qualification',
+      eventType: 'website_lead_score',
+      lead: {
+        businessName: biz,
+        source: 'AIRA website scan form',
+        status: 'new'
+      }
+    };
+  }
+
+  if(i === 3){
+    return {
+      ...base,
+      workflowType: 'appointment_booking',
+      eventType: 'website_booking_demo',
+      booking: {
+        businessName: biz,
+        request: 'Demo automated appointment booking flow',
+        status: 'requested'
+      }
+    };
+  }
+
+  return {
+    ...base,
+    workflowType: 'ecommerce_sales_ai',
+    eventType: 'website_store_analysis',
+    store: {
+      name: biz,
+      source: 'AIRA website scan form',
+      status: 'analysis_requested'
+    }
+  };
+}
+
+async function parseN8nResponse(r){
+  const type = (r.headers.get('content-type') || '').toLowerCase();
+
+  if(type.includes('application/json')){
+    const d = await r.json();
+    if(Array.isArray(d)){
+      const first = d[0] || {};
+      return first.response || first.output || first.text || first.reply || first.message || JSON.stringify(d,null,2);
+    }
+    return d.response || d.output || d.text || d.reply || d.message || d.result || d.data || JSON.stringify(d,null,2);
+  }
+
+  return await r.text();
+}
+
+async function sendToSelectedAgentWebhook(biz,a){
+  const hook = getAgentWebhook(cur);
+  const payload = buildAgentPayload(biz,a,cur);
+
+  const r = await fetch(hook,{
+    method:'POST',
+    mode:'cors',
+    headers:{
+      'Content-Type':'application/json',
+      'Accept':'application/json,text/plain,*/*'
+    },
+    body:JSON.stringify(payload)
+  });
+
+  if(!r.ok){
+    throw new Error(`n8n webhook returned ${r.status} ${r.statusText}`);
+  }
+
+  return await parseN8nResponse(r);
+}
+
+// SCAN / ANALYSE
+async function scan(){
+  if(busy)return;
+  const biz=document.getElementById('biz').value.trim();
+  const resp=document.getElementById('resp');
+  if(!biz){resp.innerHTML='Please enter a business name.<span class="cur"></span>';return;}
+  busy=true;setWave(true,.8);
+  document.getElementById('flbl').textContent='SCANNING';
+  const a=AG[cur];
+  const steps=['Connecting to AIRA...','Scanning: '+biz+'...','Pulling market data...','Running '+a.label+'...','Compiling report...'];
+  let si=0;resp.innerHTML=steps[0]+'<span class="cur"></span>';
+  const iv=setInterval(()=>{resp.innerHTML=steps[Math.min(++si,steps.length-1)]+'<span class="cur"></span>';},650);
+
+  // Try selected agent's n8n workflow first
+  try{
+    const out = await sendToSelectedAgentWebhook(biz,a);
+    clearInterval(iv);
+    resp.innerHTML=(out || 'Workflow completed successfully.')+'<span class="cur"></span>';
+    busy=false;setWave(false);document.getElementById('flbl').textContent=a.label;return;
+  }catch(e){
+    console.warn('Selected n8n webhook failed, using local fallback:', e);
+  }
+
+  // Demo fallback
+  clearInterval(iv);
+  resp.innerHTML=DF[cur](biz)+'<span class="cur"></span>';
+  busy=false;setWave(false);document.getElementById('flbl').textContent=a.label;
+}
+
+// MODAL
+function closeM(){document.getElementById('mbg').classList.remove('open');}
+function closeOut(e){if(e.target===document.getElementById('mbg'))closeM();}
+
+
+// Make functions available for inline onclick handlers
+window.pick = pick;
+window.doCard = doCard;
+window.toggleCall = toggleCall;
+window.scan = scan;
+window.closeM = closeM;
+window.closeOut = closeOut;
+
+// INIT
+document.getElementById('vwrap').style.display='flex';
+document.getElementById('vwrap').style.flexDirection='column';
+document.getElementById('vwrap').style.alignItems='center';
+renderCards(AG[0]);
+console.log('AIRA site loaded. Vapi SDK will load when voice button is clicked. Assistant ID:', C.VAPI_ID);
+
+// Optional background preload so voice opens faster, without causing a false console warning.
+loadVapiSDK()
+  .then(() => console.log('Vapi SDK ready:', !!window.Vapi))
+  .catch((err) => console.warn('Vapi SDK preload failed. It will retry on click:', err));
+</script>
+
+<a href="https://wa.me/+923169089201?text=Hi%20AIRA%2C%20I%20want%20to%20learn%20more%20about%20AI%20automation"
+   target="_blank"
+   style="position:fixed;bottom:24px;right:24px;background:#25D366;
+   width:56px;height:56px;border-radius:50%;display:flex;
+   align-items:center;justify-content:center;
+   box-shadow:0 4px 20px rgba(37,211,102,.4);
+   z-index:999;text-decoration:none;
+   animation:wapulse 2s ease-in-out infinite">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+</body>
+</html>
